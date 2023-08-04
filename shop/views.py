@@ -24,8 +24,10 @@ def index(request):
     params = {'allprod':allprods}
     return render(request, 'shop/index.html', params)
 
+
+
 def searchMatch(query, item):
-    if query in item.desc or item.product_name or query in item.category:
+    if query in item.desc.lower() or query in item.category.lower() or query in item.product_name.lower():
         return True
     else:
         return False
@@ -43,8 +45,10 @@ def search(request):
         if len(prod) != 0:
             allprods.append([prod, nSlides, range(1, nSlides)])
 
-    params = {'allprod':allprods}
-    return render(request, 'shop/index.html', params)
+    params = {'allprod':allprods, "msg": ""}
+    if len(allprods) == 0 or len(query) < 4:
+        params = {'msg': "Please make sure to enter relevant search query"}
+    return render(request, 'shop/search.html', params)
 
 
 
@@ -77,12 +81,12 @@ def tracker(request):
                 updates=[]
                 for item in update:
                     updates.append({'text':item.update_desc, 'time':item.timeStamp})
-                    response = json.dumps([updates,orders[0].items_json], default=str)
+                    response = json.dumps({"status": "success", "updates": updates, "itemsJson": orders[0].items_json}, default=str)
                 return HttpResponse(response)
             else: 
-                return HttpResponse('{}')
+                return HttpResponse('{"status": "No Item"}')
         except Exception as e:
-            return HttpResponse('{}')
+            return HttpResponse('{"status": "Error"}')
 
     return render(request, 'shop/tracker.html')
 
