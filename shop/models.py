@@ -3,6 +3,20 @@ from django.db import models
 # Create your models here.
 
 
+#libraty information  for the file and the submission of out data into the admin page
+# class library_contact(models.Model):
+#     lab_id = models.AutoField(max_length=22)
+#     category = models.CharField(max_length=45, default="")
+#     libraty_shell_no = models.IntegerField(max_,length = 43, default = "")
+
+#     def __str__(self):
+#        return self.update_desc[0:7] + "..."
+# #class for the desc of the project and remove when unnacessary
+# class description(models.Model):
+#     pass
+    
+
+#All is going normall to project
 class product(models.Model):
     product_id = models.AutoField
     product_name = models.CharField(max_length=50)
